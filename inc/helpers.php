@@ -341,3 +341,13 @@ function sgf_minify_css( $css ) {
 	
 	return str_replace( '*', ' *', implode( '', $matches[ 0 ] ) );
 }
+
+/**
+ * Allowed post types where this plugin can be used
+ *
+ * @since  1.0.1
+ * @return array Allowed post types
+ */
+function sgf_allowed_post_types() {
+	return apply_filters( 'sgf_allowed_post_types', [ 'post', 'page' ] );
+}

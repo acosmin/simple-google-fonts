@@ -46,3 +46,6 @@ Simple Google Fonts adds the posibility to change default fonts to Google fonts 
 1. Edit/add a post in Gutenberg mode
 2. When you're editing the post, you'll see an icon, `A`,  in the top-right corner of your screen (if you hover over it, it will say `Simple Google Fonts`). From there you will be able to change font families and styles for `body` and `headings`. If the `A` icond doesn't show up, you can click on the 3 dots, top-right corner, and in the `Plugins` sub-section, click on `Simple Google Fonts`. If it doesn't show up in that menu, then you're either not editing a post/page or the plugin isn't activated.
 3. You're done.
+
+### GDPR Notice
+By using this plugin (which requests data from Google Fonts servers) you consent that Google will retrieve your IP address and that it might send it to third parties. Also, it's your responsability to notify and obtain consent from your website's users.

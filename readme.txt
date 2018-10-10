@@ -97,6 +97,8 @@ Release Date: October 10th, 2018
 
 * Updated readme.txt file - tags & a simple GDPR notice;
 * Fixed: missing `break;` in `inc/compatibility.php:L67`;
+* Fixed: bug where Pages couldn't set globals;
+* Added: `sgf_get_font_id()` function to get the font family id easier;
 * Added: filter for `sgf_get_all_meta()`;
 
 = 1.0.0 =

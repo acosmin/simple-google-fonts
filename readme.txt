@@ -57,6 +57,39 @@ By using this plugin (which requests data from Google Fonts servers) you consent
 
 Please read [Google's Privacy Policy](https://policies.google.com/privacy/ "Google Privacy Policy") and if you agree with it, you can start using this plugin.
 
+=== Theme developers ===
+
+You can use the `sgf_defaults` to change the plugin defaults, example:
+
+    add_filter( 'sgf_defaults', function( $defaults ) {
+        // since v1.0.1
+        $check = function_exists( 'sgf_get_font_id' );
+    
+        // Headings font family
+        $hff = ! $check ? 0 : sgf_get_font_id( 'Josefin Sans' );
+    
+        // Body font family
+        $bff = ! $check ? 0 : sgf_get_font_id( 'Muli' );
+    
+        // Headings
+        $defaults[ 'headings' ][ 'ff' ] = $hff; // int  | Font Family
+        
+        // Body
+        $defaults[ 'body' ][ 'ff' ] = $bff;     // int | Font Family
+        $defaults[ 'body' ][ 'wt' ] = '400';    // string | Font Weight
+        $defaults[ 'body' ][ 'lh' ] = 1.8;      // float | Line Height
+        $defaults[ 'body' ][ 'ls' ] = 0;        // float | Letter spacing
+        
+        // Returns new defaults
+        return $defaults;
+    }, 15 );
+
+
+For text logos you can use the `sgf_styles_frontend_txt_logo` filter to make sure it always takes on the Headings font family, example:
+`add_filter( 'sgf_styles_frontend_txt_logo', function() { return '.logo-wrap'; }, 15 );`
+
+You can add these in your `functions.php` file. If you want to support old PHP versions, replace the anonymous functions with normal functions.
+
 == Changelog ==
 
 = 1.0.1 =

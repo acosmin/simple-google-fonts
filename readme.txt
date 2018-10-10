@@ -49,3 +49,17 @@ Simple Google Fonts adds the posibility to change default fonts to Google fonts 
 
 ### GDPR Notice
 By using this plugin (which requests data from Google Fonts servers) you consent that Google will retrieve your IP address and that it might send it to third parties. Also, it's your responsability to notify and obtain consent from your website's users.
+
+== Changelog ==
+
+= 1.0.1 =
+Release Date: October 10th, 2018
+
+* Updated readme.txt file - tags & a simple GDPR notice;
+* Fixed: missing `break;` in `inc/compatibility.php:L67`;
+* Added: filter for `sgf_get_all_meta()`;
+
+= 1.0.0 =
+Release Date: October 5th, 2018
+
+* Plugin release;

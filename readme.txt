@@ -2,10 +2,10 @@
 Contributors: acosmin 
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
-Tags: Gutenberg, Google Fonts, Gutenberg Fonts, Fonts, Font, Typography, Font Family
+Tags: fonts, Gutenberg, Google Fonts, gutenberg fonts, font
 Requires at least: 4.9.8
 Tested up to: 4.9.8
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 5.4
 
 == Description ==

@@ -149,7 +149,7 @@ function sgf_get_all_meta( $postID, $raw = false ) {
 			}
 		}
 
-		return $raw_meta;
+		return apply_filters( 'sgf_get_all_meta', $raw_meta, compact( 'postID', 'raw', 'all' ) );
 	}
 
     foreach( $all as $meta_key => $meta_value ) {
@@ -184,7 +184,7 @@ function sgf_get_all_meta( $postID, $raw = false ) {
         }
 	}
 	
-	return $meta;
+	return apply_filters( 'sgf_get_all_meta', $meta, compact( 'postID', 'raw', 'all' ) );
 }
 
 /**

@@ -101,6 +101,30 @@ function sgf_get_fonts() {
 }
 
 /**
+ * Gets the font index from the fonts array
+ *
+ * @since  1.0.1
+ * @param  string $name Font family name
+ * @return int          Font family index, 0 if not found.
+ */
+function sgf_get_font_id( $name ) {
+	$fonts   = sgf_get_fonts();
+	$font_id = 0;
+
+	$font = array_filter( $fonts, function( $font ) use( $name ) {
+		return $font[ 'f' ] === $name;
+	} );
+
+	if( ! empty( $font ) ) {
+		$font_id = array_keys( $font )[ 0 ];
+
+		return $font_id;
+	}
+
+	return $font_id;
+}
+
+/**
  * Gets all the meta registered by us and arranges it by panels and values
  *
  * @since  1.0.0

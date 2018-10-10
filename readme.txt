@@ -48,7 +48,9 @@ Simple Google Fonts adds the posibility to change default fonts to Google fonts 
 3. You're done.
 
 ### GDPR Notice
-By using this plugin (which requests data from Google Fonts servers) you consent that Google will retrieve your IP address and that it might send it to third parties. Also, it's your responsability to notify and obtain consent from your website's users.
+By using this plugin (which requests data from Google Fonts servers) you consent that Google will retrieve your IP address and that it might send it to third parties. Also, it's your responsability to notify and obtain consent from your website's users (by updating your Privacy Policy and Terms and Conditions). 
+
+Please read [Google's Privacy Policy](https://policies.google.com/privacy/ "Google Privacy Policy") and if you agree with it, you can start using this plugin.
 
 == Changelog ==
 

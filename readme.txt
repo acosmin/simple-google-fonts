@@ -2,11 +2,11 @@
 Contributors: acosmin 
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
-Tags: Gutenberg, Google Fonts, Gutenberg Fonts, Fonts, Font, Typography, Font Family
 Requires at least: 4.9.8
 Tested up to: 4.9.8
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 Requires PHP: 5.4
+Tags: fonts, Gutenberg, Google Fonts, gutenberg fonts, font
 
 == Description ==
 Simple Google Fonts adds the posibility to change default fonts to Google fonts from within the new WordPress v5.0 editor, codename Gutenberg. You'll need Gutenberg installed and activated in order to use this plugin.
@@ -46,3 +46,62 @@ Simple Google Fonts adds the posibility to change default fonts to Google fonts 
 1. Edit/add a post in Gutenberg mode
 2. When you're editing the post, you'll see an icon, `A`,  in the top-right corner of your screen (if you hover over it, it will say `Simple Google Fonts`). From there you will be able to change font families and styles for `body` and `headings`. If the `A` icond doesn't show up, you can click on the 3 dots, top-right corner, and in the `Plugins` sub-section, click on `Simple Google Fonts`. If it doesn't show up in that menu, then you're either not editing a post/page or the plugin isn't activated.
 3. You're done.
+
+== Screenshots ==
+1. You'll be able to access the plugin sidebar by clicking on the 3 dots and then on `Simple Google Fonts`
+2. If you want to have a shortcut in the toolbar, click on the start to pin it.
+3. Now you'll be able to access the plugin by clicking the `A` icon
+
+### GDPR Notice
+By using this plugin (which requests data from Google Fonts servers) you consent that Google will retrieve your IP address and that it might send it to third parties. Also, it's your responsability to notify and obtain consent from your website's users (by updating your Privacy Policy and Terms and Conditions). 
+
+Please read [Google's Privacy Policy](https://policies.google.com/privacy/ "Google Privacy Policy") and if you agree with it, you can start using this plugin.
+
+=== Theme developers ===
+
+You can use the `sgf_defaults` to change the plugin defaults, example:
+
+    add_filter( 'sgf_defaults', function( $defaults ) {
+        // since v1.0.1
+        $check = function_exists( 'sgf_get_font_id' );
+    
+        // Headings font family
+        $hff = ! $check ? 0 : sgf_get_font_id( 'Josefin Sans' );
+    
+        // Body font family
+        $bff = ! $check ? 0 : sgf_get_font_id( 'Muli' );
+    
+        // Headings
+        $defaults[ 'headings' ][ 'ff' ] = $hff; // int  | Font Family
+        
+        // Body
+        $defaults[ 'body' ][ 'ff' ] = $bff;     // int | Font Family
+        $defaults[ 'body' ][ 'wt' ] = '400';    // string | Font Weight
+        $defaults[ 'body' ][ 'lh' ] = 1.8;      // float | Line Height
+        $defaults[ 'body' ][ 'ls' ] = 0;        // float | Letter spacing
+        
+        // Returns new defaults
+        return $defaults;
+    }, 15 );
+
+
+For text logos you can use the `sgf_styles_frontend_txt_logo` filter to make sure it always takes on the Headings font family, example:
+`add_filter( 'sgf_styles_frontend_txt_logo', function() { return '.logo-wrap'; }, 15 );`
+
+You can add these in your `functions.php` file. If you want to support old PHP versions, replace the anonymous functions with normal functions.
+
+== Changelog ==
+
+= 1.0.1 =
+Release Date: October 10th, 2018
+
+* Updated readme.txt file - tags & a simple GDPR notice;
+* Fixed: missing `break;` in `inc/compatibility.php:L67`;
+* Fixed: bug where Pages couldn't set globals;
+* Added: `sgf_get_font_id()` function to get the font family id easier;
+* Added: filter for `sgf_get_all_meta()`;
+
+= 1.0.0 =
+Release Date: October 5th, 2018
+
+* Plugin release;

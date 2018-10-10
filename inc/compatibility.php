@@ -64,6 +64,7 @@ function sgf_wrong_version_message( $el ) {
             $message = esc_html__( 
                 'Simple Google Fonts requires PHP version %s. Please contact your web-hosting provider to upgrade it for you.', 'simple-google-fonts' 
             );
+            break;
         
         default:
             break;

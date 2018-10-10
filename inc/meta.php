@@ -122,7 +122,7 @@ function sgf_meta_fields() {
 function sgf_register_meta( $meta ) {
 	if( empty( $meta ) ) return;
 
-	$subtypes = apply_filters( 'sgf_allowed_post_types', [ 'post', 'page' ] );
+	$subtypes = sgf_allowed_post_types();
 
 	foreach( $subtypes as $subtype ) {
 		foreach( $meta as $panel => $keys ) {
@@ -186,6 +186,7 @@ function sgf_get_global_post_id() {
 			'meta_key'   => $meta_key,
 			'meta_value' => true,
 			'fields'     => 'ids',
+			'post_type'  => sgf_allowed_post_types()
 		] );
 
 		set_transient( $transient, $post_ids, MONTH_IN_SECONDS );
@@ -229,6 +230,7 @@ function sgf_set_the_global_styles() {
 			'meta_key'   => $meta_key,
 			'meta_value' => true,
 			'fields'     => 'ids',
+			'post_type'  => sgf_allowed_post_types()
 		] );
 
 		set_transient( $transient, $post_ids, MONTH_IN_SECONDS );

@@ -101,6 +101,30 @@ function sgf_get_fonts() {
 }
 
 /**
+ * Gets the font index from the fonts array
+ *
+ * @since  1.0.1
+ * @param  string $name Font family name
+ * @return int          Font family index, 0 if not found.
+ */
+function sgf_get_font_id( $name ) {
+	$fonts   = sgf_get_fonts();
+	$font_id = 0;
+
+	$font = array_filter( $fonts, function( $font ) use( $name ) {
+		return $font[ 'f' ] === $name;
+	} );
+
+	if( ! empty( $font ) ) {
+		$font_id = array_keys( $font )[ 0 ];
+
+		return $font_id;
+	}
+
+	return $font_id;
+}
+
+/**
  * Gets all the meta registered by us and arranges it by panels and values
  *
  * @since  1.0.0
@@ -149,7 +173,7 @@ function sgf_get_all_meta( $postID, $raw = false ) {
 			}
 		}
 
-		return $raw_meta;
+		return apply_filters( 'sgf_get_all_meta', $raw_meta, compact( 'postID', 'raw', 'all' ) );
 	}
 
     foreach( $all as $meta_key => $meta_value ) {
@@ -184,7 +208,7 @@ function sgf_get_all_meta( $postID, $raw = false ) {
         }
 	}
 	
-	return $meta;
+	return apply_filters( 'sgf_get_all_meta', $meta, compact( 'postID', 'raw', 'all' ) );
 }
 
 /**
@@ -316,4 +340,14 @@ function sgf_minify_css( $css ) {
 	preg_match_all( '/[^\s"]+|"[^"]*"/', wp_strip_all_tags( $css ), $matches );
 	
 	return str_replace( '*', ' *', implode( '', $matches[ 0 ] ) );
+}
+
+/**
+ * Allowed post types where this plugin can be used
+ *
+ * @since  1.0.1
+ * @return array Allowed post types
+ */
+function sgf_allowed_post_types() {
+	return apply_filters( 'sgf_allowed_post_types', [ 'post', 'page' ] );
 }

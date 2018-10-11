@@ -94,7 +94,7 @@ You can add these in your `functions.php` file. If you want to support old PHP v
 ## Changelog
 
 #### 1.0.1
-Release Date: October 10th, 2018
+**Release Date:** _October 10th, 2018_
 
 * Updated readme.txt file - tags & a simple GDPR notice;
 * Fixed: missing `break;` in `inc/compatibility.php:L67`;
@@ -103,6 +103,6 @@ Release Date: October 10th, 2018
 * Added: filter for `sgf_get_all_meta()`;
 
 #### 1.0.0
-Release Date: October 5th, 2018
+**Release Date:** _October 5th, 2018_
 
 * Plugin release;

@@ -1,12 +1,12 @@
 # Simple Gutenberg Google Fonts
-Contributors: acosmin 
-License: GPLv3
-License URI: http://www.gnu.org/licenses/gpl-3.0.txt
-Requires at least: 4.9.8
-Tested up to: 4.9.8
-Stable tag: 1.0.1
-Requires PHP: 5.4
-Tags: fonts, Gutenberg, Google Fonts, gutenberg fonts, font
+Contributors: acosmin  
+License: GPLv3  
+License URI: http://www.gnu.org/licenses/gpl-3.0.txt  
+Requires at least: 4.9.8  
+Tested up to: 4.9.8  
+Stable tag: 1.0.1  
+Requires PHP: 5.4  
+Tags: fonts, Gutenberg, Google Fonts, gutenberg fonts, font  
 
 ## Description
 Simple Google Fonts adds the posibility to change default fonts to Google fonts from within the new WordPress v5.0 editor, codename Gutenberg. You'll need Gutenberg installed and activated in order to use this plugin.

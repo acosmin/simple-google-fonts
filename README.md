@@ -93,7 +93,7 @@ You can add these in your `functions.php` file. If you want to support old PHP v
 
 ## Changelog
 
-#### 1.0.1
+### 1.0.1
 **Release Date:** _October 10th, 2018_
 
 * Updated readme.txt file - tags & a simple GDPR notice;
@@ -102,7 +102,7 @@ You can add these in your `functions.php` file. If you want to support old PHP v
 * Added: `sgf_get_font_id()` function to get the font family id easier;
 * Added: filter for `sgf_get_all_meta()`;
 
-#### 1.0.0
+### 1.0.0
 **Release Date:** _October 5th, 2018_
 
 * Plugin release;

@@ -1,12 +1,12 @@
 # Simple Gutenberg Google Fonts
-Contributors: acosmin  
-License: GPLv3  
-License URI: http://www.gnu.org/licenses/gpl-3.0.txt  
-Requires at least: 4.9.8  
-Tested up to: 4.9.8  
-Stable tag: 1.0.1  
-Requires PHP: 5.4  
-Tags: fonts, Gutenberg, Google Fonts, gutenberg fonts, font  
+**Contributors:** acosmin  
+**License:** GPLv3  
+**License URI:** http://www.gnu.org/licenses/gpl-3.0.txt  
+**Requires at least:** 4.9.8  
+**Tested up to:** 4.9.8  
+**Stable tag:** 1.0.1  
+**Requires PHP:** 5.4  
+**Tags:** fonts, Gutenberg, Google Fonts, gutenberg fonts, font  
 
 ## Description
 Simple Google Fonts adds the posibility to change default fonts to Google fonts from within the new WordPress v5.0 editor, codename Gutenberg. You'll need Gutenberg installed and activated in order to use this plugin.
@@ -22,7 +22,7 @@ Simple Google Fonts adds the posibility to change default fonts to Google fonts 
 * The post needs to be published for you to be able to use its styles globally. If for some reason you change that post to draft mode and the global mode is enabled on it, the option will reset and you'll need to enable it again after you publish the post.
 * It's safe to say that if you don't have an Internet connection, Google fonts will not display (unless you have them installed on your system).
 
-#### To do list:
+### To do list:
 * Add support for `word-spacing` for both `body` and `headings`
 * Auto add `700` and `700i` weights if the font supports those variants.
 

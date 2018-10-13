@@ -27,13 +27,21 @@ function sgf_is_editor_page() {
  * @return array
  */
 function sgf_headings_defaults() {
-    return (object) apply_filters( 'sgf_headings_defaults', [
-        'el' => 'h1',
-        'wt' => '400',
-        'tt' => 'none',
-        'lh' => 1.8,
-        'ls' => 0
-    ] );
+	$headings = sgf_allowed_values()[ 'headings' ];
+	$defaults = [];
+
+	foreach( $headings as $heading ) {
+		$defaults[ $heading ] = [ 
+			'el' => $heading,
+			'wt' => '400',
+			'tt' => 'none',
+			'lh' => 1.8,
+			'ls' => 0,
+			'ws' => 0
+		];
+	}
+
+	return apply_filters( 'sgf_headings_defaults', $defaults, $headings );
 }
 
 /**
@@ -51,7 +59,8 @@ function sgf_defaults() {
             'ff' => 0,
             'wt' => '400',
             'lh' => 1.8,
-            'ls' => 0
+			'ls' => 0,
+			'ws' => 0
         ]
     ] );
 }
@@ -94,10 +103,9 @@ function sgf_allowed_values() {
  * @return array
  */
 function sgf_get_fonts() {
-	return json_decode( 
-        file_get_contents( plugins_url( '/js/src/json/google-fonts.json', dirname( __FILE__ ) ) ), 
-        TRUE 
-    );
+	$response = wp_remote_get( plugins_url( '/js/src/json/google-fonts.json', dirname( __FILE__ ) ) );
+
+	return json_decode( wp_remote_retrieve_body( $response ), TRUE );
 }
 
 /**
@@ -158,6 +166,7 @@ function sgf_get_all_meta( $postID, $raw = false ) {
 							break;
 						case 'lh':
 						case 'ls':
+						case 'ws':
 							$raw_meta[ $meta_key ] = floatval( $meta_value[ 0 ] );
 							break;
 						case 'is':
@@ -194,6 +203,7 @@ function sgf_get_all_meta( $postID, $raw = false ) {
 
 				case 'lh':
 				case 'ls':
+				case 'ws':
 					$meta[ $panel ][ $prop ] = floatval( $meta_value[ 0 ] );
 					break;
 
@@ -229,6 +239,25 @@ function sgf_parse_heading_values( $heading ) {
 	}
 
 	return $values;
+}
+
+/**
+ * Stringify headin values from an array.
+ *
+ * @since  1.0.2
+ * @param  array  $heading Proprieties and values in an array.
+ * @return string          Empty string if no $heading, values in a string otherwise.
+ */
+function sgf_stringify_heading_values( $heading = [] ) {
+	if( empty( $heading ) ) return '';
+
+	$proprieties = [];
+	
+	foreach( $heading as $propriety => $value ) {
+		$proprieties[] = $propriety . ':' . $value;
+	}
+
+	return implode( '|', $proprieties );
 }
 
 /**
@@ -350,4 +379,44 @@ function sgf_minify_css( $css ) {
  */
 function sgf_allowed_post_types() {
 	return apply_filters( 'sgf_allowed_post_types', [ 'post', 'page' ] );
+}
+
+/**
+ * Checks if a filter is applied on our defaults.
+ *
+ * @since  1.0.2
+ * @return boolean True if filters are applied, false if not.
+ */
+function sgf_filtered_defaults() {
+	global $wp_filter;
+	
+    if( isset( $wp_filter[ 'sgf_defaults' ] ) || isset( $wp_filter[ 'sgf_headings_defaults' ] ) ) {
+		return true;
+	}
+
+    return false;
+}
+
+/**
+ * If filters are applied, use them as defaults and as initial globals.
+ *
+ * @since  1.0.2
+ * @return array All the defaults with compiled Headings defautlts.
+ */
+function sgf_use_filtered_defaults() {
+	$check    = sgf_filtered_defaults();
+	$defaults = false;
+
+	if( $check ) {
+		$defaults = sgf_defaults();
+		$headings = sgf_headings_defaults();
+		$count    = 0;
+
+		foreach( $headings as $heading => $options ) {
+			$defaults[ 'headings' ][ 'els' ][ $count ] = sgf_stringify_heading_values( $options );
+			$count++;
+		}
+	}
+
+	return apply_filters( 'sgf_use_filtered_defaults', $defaults, $check );
 }

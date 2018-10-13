@@ -4,7 +4,7 @@
 **License URI:** http://www.gnu.org/licenses/gpl-3.0.txt  
 **Requires at least:** 4.9.8  
 **Tested up to:** 4.9.8  
-**Stable tag:** 1.0.1  
+**Stable tag:** 1.0.2  
 **Requires PHP:** 5.4  
 **Tags:** fonts, Gutenberg, Google Fonts, gutenberg fonts, font  
 
@@ -74,10 +74,29 @@ add_filter( 'sgf_defaults', function( $defaults ) {
     $defaults[ 'body' ][ 'wt' ] = '400';    // string | Font Weight
     $defaults[ 'body' ][ 'lh' ] = 1.8;      // float | Line Height
     $defaults[ 'body' ][ 'ls' ] = 0;        // float | Letter spacing
+    $defaults[ 'body' ][ 'ws' ] = 0;        // float | Word spacing
     
     // Returns new defaults
     return $defaults;
 }, 15 );
+```
+
+For headings you can use the `sgf_headings_defaults`, example:
+```
+add_filter( 'sgf_headings_defaults', function( $defaults, $headings ) {
+    // $headings = [ 'h1', ... 'h6' ];
+
+    $defaults[ 'h1' ][ 'wt' ] = '400';  // string | H1 font weight, italic is added automatically.
+    $defaults[ 'h1' ][ 'tt' ] = 'none'; // string | H1 text transform
+    $defaults[ 'h1' ][ 'lh' ] = 1.8;    // float | Line height
+    $defaults[ 'h1' ][ 'ls' ] = 0;      // float | Letter spacing
+    $defaults[ 'h1' ][ 'ws' ] = 0;      // float | Word spacing
+
+    // if a propriety is left out, it will use the plugin default.
+    // you can use this for headings from h1 to h6
+
+    return $defaults;
+}, 10, 2 );
 ```
 
 For text logos you can use the `sgf_styles_frontend_txt_logo` filter to make sure it always takes on the Headings font family, example:
@@ -92,6 +111,15 @@ You can add these in your `functions.php` file. If you want to support old PHP v
 3. Now you'll be able to access the plugin by clicking the `A` icon
 
 ## Changelog
+
+### 1.0.2
+**Release Date:** _October 13th, 2018_
+
+* Changed: Using `wp_remote_get()` instead of `file_get_contents()`;
+* Fixed: `Tabs` deprecated argument issue;
+* Fixed: `theStyles()` defaults;
+* Added: Filter for headings defaults;
+* Added: Word spacing option;
 
 ### 1.0.1
 **Release Date:** _October 10th, 2018_

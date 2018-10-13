@@ -59,6 +59,10 @@ function sgf_meta_fields() {
 				'type'     => 'number',
 				'default'  => $defaults[ 'body' ][ 'ls' ]
 			],
+			'ws' => [
+				'type'     => 'number',
+				'default'  => $defaults[ 'body' ][ 'ws' ]
+			]
 		],
 		'global' => [
 			'is' => [

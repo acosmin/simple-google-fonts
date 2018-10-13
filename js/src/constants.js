@@ -1,5 +1,3 @@
-const { __ } = wp.i18n;
-
 export const PLUGIN_INFO = {
     sidebarId   : 'sgf-sidebar',
     sidebarIcon : 'editor-textcolor',

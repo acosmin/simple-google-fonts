@@ -5,7 +5,7 @@
  * Description: Simple Google Fonts adds the posibility to change default fonts to Google fonts from within the new WordPress v5.0 editor, codename Gutenberg. 
  * Author: acosmin
  * Author URI: 
- * Version: 1.0.1
+ * Version: 1.0.2
  * License: GPL3+
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
  *
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 // Some constants
 define( 'SGF_PLUGIN',         __FILE__ );
-define( 'SGF_PLUGIN_VERSION', '1.0.1'  );
+define( 'SGF_PLUGIN_VERSION', '1.0.2'  );
 define( 'SGF_PLUGIN_MIN_WP',  '4.9.8'  );
 define( 'SGF_PLUGIN_MIN_PHP', '5.4.0'  );
 define( 'SGF_PLUGIN_MIN_GB',  '3.7.0'  );

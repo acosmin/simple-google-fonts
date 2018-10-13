@@ -101,10 +101,9 @@ function sgf_allowed_values() {
  * @return array
  */
 function sgf_get_fonts() {
-	return json_decode( 
-        file_get_contents( plugins_url( '/js/src/json/google-fonts.json', dirname( __FILE__ ) ) ), 
-        TRUE 
-    );
+	$response = wp_remote_get( plugins_url( '/js/src/json/google-fonts.json', dirname( __FILE__ ) ) );
+
+	return json_decode( wp_remote_retrieve_body( $response ), TRUE );
 }
 
 /**

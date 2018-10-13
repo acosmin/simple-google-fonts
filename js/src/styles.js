@@ -16,6 +16,8 @@ export default function theStyles( meta, fontsObj ) {
     const bFont    = fontsObj[ ffb ].f;
     const styleTag = document.querySelector( `#${simpleGFonts[ 'style_id' ]}` );
     const hMeta    = meta.sgf_els_headings;
+    
+    const { defaults, headings:hDef } = simpleGFonts;
 
     styleTag.textContent = '';
 
@@ -70,7 +72,7 @@ export default function theStyles( meta, fontsObj ) {
             }`;
     }
 
-    if( meta.sgf_wt_body !== '400' ) { // recheck default
+    if( meta.sgf_wt_body !== '400' ) {
         styleTag.textContent += `
             body.gutenberg-editor-page .editor-block-list__block div[class*="wp-block-"],
             body.gutenberg-editor-page .editor-block-list__block div[class*="block-list__block"],
@@ -80,7 +82,7 @@ export default function theStyles( meta, fontsObj ) {
         `;
     }
 
-    if( meta.sgf_lh_body !== 1.8 ) {
+    if( meta.sgf_lh_body !== defaults.body.lh ) {
         styleTag.textContent += `
             body.gutenberg-editor-page .editor-block-list__block div[class*="wp-block-"],
             body.gutenberg-editor-page .editor-block-list__block div[class*="block-list__block"],
@@ -112,7 +114,7 @@ export default function theStyles( meta, fontsObj ) {
             `;
         }
 
-        if( hParsed && hParsed.tt !== 'none' ) {
+        if( hParsed && hParsed.tt !== hDef[ heading ].tt ) {
             if( heading === 'h1' ) {
                 styleTag.textContent += `
                     body.gutenberg-editor-page .editor-post-title__block .editor-post-title__input {
@@ -127,7 +129,7 @@ export default function theStyles( meta, fontsObj ) {
             `;
         }
 
-        if( hParsed && hParsed.lh !== 1.4 ) {
+        if( hParsed && hParsed.lh !== hDef[ heading ].lh ) {
             if( heading === 'h1' ) {
                 styleTag.textContent += `
                     body.gutenberg-editor-page .editor-post-title__block .editor-post-title__input {
@@ -142,7 +144,7 @@ export default function theStyles( meta, fontsObj ) {
             `;
         }
 
-        if( hParsed && hParsed.ls !== 0 ) {
+        if( hParsed && hParsed.ls !== hDef[ heading ].ls ) {
             if( heading === 'h1' ) {
                 styleTag.textContent += `
                     body.gutenberg-editor-page .editor-post-title__block .editor-post-title__input {
@@ -157,7 +159,7 @@ export default function theStyles( meta, fontsObj ) {
             `;
         }
 
-        if( hParsed && hParsed.ws !== 0 ) {
+        if( hParsed && hParsed.ws !== hDef[ heading ].ws ) {
             if( heading === 'h1' ) {
                 styleTag.textContent += `
                     body.gutenberg-editor-page .editor-post-title__block .editor-post-title__input {
@@ -172,7 +174,7 @@ export default function theStyles( meta, fontsObj ) {
             `;
         }
 
-        if( meta.sgf_ls_body !== 0 ) {
+        if( meta.sgf_ls_body !== defaults.body.ls ) {
             styleTag.textContent += `
                 body.gutenberg-editor-page .editor-block-list__block div[class*="wp-block-"],
                 body.gutenberg-editor-page .editor-block-list__block div[class*="block-list__block"],
@@ -183,7 +185,7 @@ export default function theStyles( meta, fontsObj ) {
             `;
         }
 
-        if( meta.sgf_ws_body !== 0 ) {
+        if( meta.sgf_ws_body !== defaults.body.ws ) {
             styleTag.textContent += `
                 body.gutenberg-editor-page .editor-block-list__block div[class*="wp-block-"],
                 body.gutenberg-editor-page .editor-block-list__block div[class*="block-list__block"],

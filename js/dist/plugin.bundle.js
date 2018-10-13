@@ -1111,6 +1111,9 @@ function theStyles(meta, fontsObj) {
   var bFont = fontsObj[ffb].f;
   var styleTag = document.querySelector("#".concat(simpleGFonts['style_id']));
   var hMeta = meta.sgf_els_headings;
+  var _simpleGFonts = simpleGFonts,
+      defaults = _simpleGFonts.defaults,
+      hDef = _simpleGFonts.headings;
   styleTag.textContent = '';
 
   if (ffb !== 0 || ffh !== 0) {
@@ -1126,11 +1129,10 @@ function theStyles(meta, fontsObj) {
   }
 
   if (meta.sgf_wt_body !== '400') {
-    // recheck default
     styleTag.textContent += "\n            body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"],\n            body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"],\n            body.gutenberg-editor-page .editor-default-block-appender__content {\n                font-weight: ".concat(meta.sgf_wt_body, " !important;\n            }\n        ");
   }
 
-  if (meta.sgf_lh_body !== 1.8) {
+  if (meta.sgf_lh_body !== defaults.body.lh) {
     styleTag.textContent += "\n            body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"],\n            body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"],\n            body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] p,\n            body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"] p {\n                line-height: ".concat(meta.sgf_lh_body, " !important;\n            }\n        ");
   }
 
@@ -1155,7 +1157,7 @@ function theStyles(meta, fontsObj) {
         styleTag.textContent += "\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"] ".concat(heading, ",\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] ").concat(heading, " {\n                    font-weight: ").concat(hParsed.wt, " !important;\n                    \n                }\n            ");
       }
 
-      if (hParsed && hParsed.tt !== 'none') {
+      if (hParsed && hParsed.tt !== hDef[heading].tt) {
         if (heading === 'h1') {
           styleTag.textContent += "\n                    body.gutenberg-editor-page .editor-post-title__block .editor-post-title__input {\n                        text-transform: ".concat(hParsed.tt, " !important;\n                    }\n                ");
         }
@@ -1163,7 +1165,7 @@ function theStyles(meta, fontsObj) {
         styleTag.textContent += "\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] ".concat(heading, " {\n                    text-transform: ").concat(hParsed.tt, " !important;\n                }\n            ");
       }
 
-      if (hParsed && hParsed.lh !== 1.4) {
+      if (hParsed && hParsed.lh !== hDef[heading].lh) {
         if (heading === 'h1') {
           styleTag.textContent += "\n                    body.gutenberg-editor-page .editor-post-title__block .editor-post-title__input {\n                        line-height: ".concat(hParsed.lh, " !important;\n                    }\n                ");
         }
@@ -1171,7 +1173,7 @@ function theStyles(meta, fontsObj) {
         styleTag.textContent += "\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] ".concat(heading, " {\n                    line-height: ").concat(hParsed.lh, " !important;\n                }\n            ");
       }
 
-      if (hParsed && hParsed.ls !== 0) {
+      if (hParsed && hParsed.ls !== hDef[heading].ls) {
         if (heading === 'h1') {
           styleTag.textContent += "\n                    body.gutenberg-editor-page .editor-post-title__block .editor-post-title__input {\n                        letter-spacing: ".concat(hParsed.ls, "em !important;\n                    }\n                ");
         }
@@ -1179,7 +1181,7 @@ function theStyles(meta, fontsObj) {
         styleTag.textContent += "\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] ".concat(heading, " {\n                    letter-spacing: ").concat(hParsed.ls, "em !important;\n                }\n            ");
       }
 
-      if (hParsed && hParsed.ws !== 0) {
+      if (hParsed && hParsed.ws !== hDef[heading].ws) {
         if (heading === 'h1') {
           styleTag.textContent += "\n                    body.gutenberg-editor-page .editor-post-title__block .editor-post-title__input {\n                        word-spacing: ".concat(hParsed.ws, "em !important;\n                    }\n                ");
         }
@@ -1187,11 +1189,11 @@ function theStyles(meta, fontsObj) {
         styleTag.textContent += "\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] ".concat(heading, " {\n                    word-spacing: ").concat(hParsed.ws, "em !important;\n                }\n            ");
       }
 
-      if (meta.sgf_ls_body !== 0) {
+      if (meta.sgf_ls_body !== defaults.body.ls) {
         styleTag.textContent += "\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"],\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"],\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] p,\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"] p {\n                    letter-spacing: ".concat(meta.sgf_ls_body, "em !important;\n                }\n            ");
       }
 
-      if (meta.sgf_ws_body !== 0) {
+      if (meta.sgf_ws_body !== defaults.body.ws) {
         styleTag.textContent += "\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"],\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"],\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] p,\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"] p {\n                    word-spacing: ".concat(meta.sgf_ws_body, "em !important;\n                }\n            ");
       }
     };

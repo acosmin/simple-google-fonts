@@ -232,7 +232,7 @@ function sgf_styles_frontend( $postID ) {
             $ff = $fonts[ $meta[ 'body' ][ 'ff' ] ][ 'f' ];
 
             $style .= '
-            html, body {
+            html, body, input, select, textarea {
                 font-family: "' . esc_html( $ff ) . '", sans-serif !important;
             }';
         }

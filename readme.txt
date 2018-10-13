@@ -74,6 +74,7 @@ You can use the `sgf_defaults` filter to change the plugin defaults, example:
         $defaults[ 'body' ][ 'wt' ] = '400';    // string | Font Weight
         $defaults[ 'body' ][ 'lh' ] = 1.8;      // float | Line Height
         $defaults[ 'body' ][ 'ls' ] = 0;        // float | Letter spacing
+        $defaults[ 'body' ][ 'ws' ] = 0;        // float | Word spacing
         
         // Returns new defaults
         return $defaults;
@@ -88,6 +89,7 @@ For headings you can use the `sgf_headings_defaults`, example:
 	    $defaults[ 'h1' ][ 'tt' ] = 'none'; // string | H1 text transform
 	    $defaults[ 'h1' ][ 'lh' ] = 1.8;    // float | Line height
 	    $defaults[ 'h1' ][ 'ls' ] = 0;      // float | Letter spacing
+        $defaults[ 'h1' ][ 'ws' ] = 0;      // float | Words spacing
 
 	    // if a propriety is left out, it will use the plugin default.
 	    // you can use this for headings from h1 to h6

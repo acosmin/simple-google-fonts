@@ -113,6 +113,7 @@ You can add these in your `functions.php` file. If you want to support old PHP v
 ### 1.0.2
 **Release Date:** _October 13th, 2018_
 
+* Changed: Using `wp_remote_get()` instead of `file_get_contents()`;
 * Fixed: `Tabs` deprecated argument issue;
 * Added: Filter for headings defaults;
 

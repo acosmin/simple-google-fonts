@@ -54,6 +54,7 @@ function sgf_sanitize_headings_values( $values ) {
 
             case 'lh':
             case 'ls':
+            case 'ws':
                 $newitem = $prop . ':' . floatval( $value ) ;
                 break;
 

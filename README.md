@@ -116,6 +116,7 @@ You can add these in your `functions.php` file. If you want to support old PHP v
 * Changed: Using `wp_remote_get()` instead of `file_get_contents()`;
 * Fixed: `Tabs` deprecated argument issue;
 * Added: Filter for headings defaults;
+* Added: Word spacing option;
 
 ### 1.0.1
 **Release Date:** _October 10th, 2018_

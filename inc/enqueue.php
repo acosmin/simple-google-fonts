@@ -260,8 +260,19 @@ function sgf_styles_frontend( $postID ) {
             $style .= 'body { font-weight: ' . esc_html( $meta[ 'body' ][ 'wt' ] ) . ' !important; }';
         }
         $style .= 'body { ';
-        $style .= 'line-height: ' . esc_html( $meta[ 'body' ][ 'lh' ] ) . ' !important; ';
-        $style .= 'letter-spacing: ' . esc_html( $meta[ 'body' ][ 'ls' ] ) . 'em !important; ';
+
+            if( isset( $meta[ 'body' ][ 'lh' ] ) ) {
+                $style .= 'line-height: ' . esc_html( $meta[ 'body' ][ 'lh' ] ) . ' !important; ';
+            }
+
+            if( isset( $meta[ 'body' ][ 'ls' ] ) ) {
+                $style .= 'letter-spacing: ' . esc_html( $meta[ 'body' ][ 'ls' ] ) . 'em !important; ';
+            }
+
+            if( isset( $meta[ 'body' ][ 'ws' ] ) ) {
+                $style .= 'word-spacing: ' . esc_html( $meta[ 'body' ][ 'ws' ] ) . 'em !important; ';
+            }
+
         $style .= '}';
     }
 
@@ -278,13 +289,27 @@ function sgf_styles_frontend( $postID ) {
                     }
 
                     $style .= $heading . ', ' . $heading . ' *' . $add_logo . ' { ';
+
                         if( $headingmeta[ 'wt' ] !== '400' ) {
                             $style .= 'font-weight: ' . esc_html( $headingmeta[ 'wt' ] ) . ' !important; ';
                         }
                         
-                        $style .= 'text-transform: ' . esc_html( $headingmeta[ 'tt' ] ) . ' !important; ';
-                        $style .= 'line-height: ' . esc_html( $headingmeta[ 'lh' ] ) . ' !important; ';
-                        $style .= 'letter-spacing: ' . esc_html( $headingmeta[ 'ls' ] ) . 'em !important; ';
+                        if( isset( $headingmeta[ 'tt' ] ) ) {
+                            $style .= 'text-transform: ' . esc_html( $headingmeta[ 'tt' ] ) . ' !important; ';
+                        }
+
+                        if( isset( $headingmeta[ 'lh' ] ) ) {
+                            $style .= 'line-height: ' . esc_html( $headingmeta[ 'lh' ] ) . ' !important; ';
+                        }
+
+                        if( isset( $headingmeta[ 'ls' ] ) ) {
+                            $style .= 'letter-spacing: ' . esc_html( $headingmeta[ 'ls' ] ) . 'em !important; ';
+                        }
+
+                        if( isset( $headingmeta[ 'ws' ] ) ) {
+                            $style .= 'word-spacing: ' . esc_html( $headingmeta[ 'ws' ] ) . 'em !important; ';
+                        }
+
                     $style .= '}';
                 }
             }

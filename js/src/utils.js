@@ -69,6 +69,7 @@ export const parseHeadingValues = heading => {
         switch( el ) {
             case 'lh':
             case 'ls':
+            case 'ws':
                 value = Number( value );
                 break;
         
@@ -114,8 +115,7 @@ export const stringifyHeadingValues = ( parsed, prop, value ) => {
 export const getHeadingValue = ( el, prop, meta ) => {
     const { headings:hdef } = simpleGFonts;
     
-    const defaults = hdef[ el ]; //TODO check if weight is supported by the current FF
-    //const defaults = parseHeadingValues( `el:${el}|wt:400|tt:none|lh:1.4|ls:0` ); //TODO
+    const defaults = hdef[ el ];
     
     const headings = meta.sgf_els_headings;
 
@@ -192,7 +192,6 @@ export const createStyleNodes = () => {
 export const addGlobalHeadings = meta => {
     const { global_vals:gvals } = simpleGFonts;
 
-    //if( ! meta.sgf_els_headings.length && gvals ) {
     if( gvals ) {
         const { sgf_els_headings:gheadings } = gvals;
 

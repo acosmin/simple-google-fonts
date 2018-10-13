@@ -157,6 +157,21 @@ export default function theStyles( meta, fontsObj ) {
             `;
         }
 
+        if( hParsed && hParsed.ws !== 0 ) {
+            if( heading === 'h1' ) {
+                styleTag.textContent += `
+                    body.gutenberg-editor-page .editor-post-title__block .editor-post-title__input {
+                        word-spacing: ${ hParsed.ws }em !important;
+                    }
+                `;
+            }
+            styleTag.textContent += `
+                body.gutenberg-editor-page .editor-block-list__block div[class*="wp-block-"] ${ heading } {
+                    word-spacing: ${ hParsed.ws }em !important;
+                }
+            `;
+        }
+
         if( meta.sgf_ls_body !== 0 ) {
             styleTag.textContent += `
                 body.gutenberg-editor-page .editor-block-list__block div[class*="wp-block-"],
@@ -164,6 +179,17 @@ export default function theStyles( meta, fontsObj ) {
                 body.gutenberg-editor-page .editor-block-list__block div[class*="wp-block-"] p,
                 body.gutenberg-editor-page .editor-block-list__block div[class*="block-list__block"] p {
                     letter-spacing: ${ meta.sgf_ls_body }em !important;
+                }
+            `;
+        }
+
+        if( meta.sgf_ws_body !== 0 ) {
+            styleTag.textContent += `
+                body.gutenberg-editor-page .editor-block-list__block div[class*="wp-block-"],
+                body.gutenberg-editor-page .editor-block-list__block div[class*="block-list__block"],
+                body.gutenberg-editor-page .editor-block-list__block div[class*="wp-block-"] p,
+                body.gutenberg-editor-page .editor-block-list__block div[class*="block-list__block"] p {
+                    word-spacing: ${ meta.sgf_ws_body }em !important;
                 }
             `;
         }

@@ -114,6 +114,7 @@ Release Date: October 13th, 2018
 * Changed: Using `wp_remote_get()` instead of `file_get_contents()`;
 * Fixed: `Tabs` deprecated argument issue;
 * Added: Filter for headings defaults; 
+* Added: Word spacing option;
 
 = 1.0.1 =
 Release Date: October 10th, 2018

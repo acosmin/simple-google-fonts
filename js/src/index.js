@@ -60,12 +60,13 @@ class SimpleGoogleFonts extends Component {
     constructor() {
         super( ...arguments );
 
-        this.changeFontsWeights = this.changeFontsWeights.bind( this );
-        this.changeTransform    = this.changeTransform.bind( this );
-        this.changeLineHeight   = this.changeLineHeight.bind( this );
-        this.changeLetterSpace  = this.changeLetterSpace.bind( this );
-        this.changeStyles       = this.changeStyles.bind( this );
-        this.updateElement      = this.updateElement.bind( this );
+        this.changeFontsWeights   = this.changeFontsWeights.bind( this );
+        this.changeTransform      = this.changeTransform.bind( this );
+        this.changeLineHeight     = this.changeLineHeight.bind( this );
+        this.changeLetterSpacing  = this.changeLetterSpacing.bind( this );
+        this.changeWordSpacing    = this.changeWordSpacing.bind( this );
+        this.changeStyles         = this.changeStyles.bind( this );
+        this.updateElement        = this.updateElement.bind( this );
     }
 
     /**
@@ -338,7 +339,17 @@ class SimpleGoogleFonts extends Component {
      * @since  1.0.0
      * @return {Void}
      */
-    changeLetterSpace() {
+    changeLetterSpacing() {
+        this.changeStyles();
+    }
+
+    /**
+     * Wrapper for changeStyles(), in case we need to add something later
+     *
+     * @since  1.0.2
+     * @return {Void}
+     */
+    changeWordSpacing() {
         this.changeStyles();
     }
 
@@ -387,10 +398,13 @@ class SimpleGoogleFonts extends Component {
                 this.changeLineHeight();
                 break;
             case 'ls':
-                this.changeLetterSpace();
+                this.changeLetterSpacing();
                 break;
             case 'tt':
                 this.changeTransform();
+                break;
+            case 'ws':
+                this.changeWordSpacing();
                 break;
             default:
                 break;
@@ -405,7 +419,7 @@ class SimpleGoogleFonts extends Component {
      */
     render() {
         const { sidebarId, pluginName, sidebarIcon } = PLUGIN_INFO;
-        const { meta, info } = this.props;
+        const { meta } = this.props;
         const updateEl = this.updateElement;
 
         return (
@@ -472,6 +486,17 @@ class SimpleGoogleFonts extends Component {
                                             step={ 0.01 }
                                             onChange={ value => updateEl( tabName, 'ls', value, true ) }
                                         />
+
+                                        { /* /// Headings: Word spacing /// */ }
+                                        <RangeControl 
+                                            label={ __( 'Word spacing:' ) }
+                                            value={ getHeadingValue( tabName, 'ws', meta ) }
+                                            min={ 0 }
+                                            max={ 3 }
+                                            step={ 0.01 }
+                                            onChange={ value => updateEl( tabName, 'ws', value, true ) }
+                                        />
+
                                     </Fragment>
                                 ) }
                             }
@@ -516,6 +541,16 @@ class SimpleGoogleFonts extends Component {
                             max={ 3 }
                             step={ 0.01 }
                             onChange={ value => updateEl( 'body', 'ls', value ) }
+                        />
+
+                        { /* /// Body: Word spacing /// */ }
+                        <RangeControl 
+                            label={ __( 'Word spacing:' ) }
+                            value={ meta.sgf_ws_body }
+                            min={ 0 }
+                            max={ 3 }
+                            step={ 0.01 }
+                            onChange={ value => updateEl( 'body', 'ws', value ) }
                         />
                         
                     </PanelBody>

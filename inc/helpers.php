@@ -36,7 +36,8 @@ function sgf_headings_defaults() {
 			'wt' => '400',
 			'tt' => 'none',
 			'lh' => 1.8,
-			'ls' => 0 
+			'ls' => 0,
+			'ws' => 0
 		];
 	}
 
@@ -58,7 +59,8 @@ function sgf_defaults() {
             'ff' => 0,
             'wt' => '400',
             'lh' => 1.8,
-            'ls' => 0
+			'ls' => 0,
+			'ws' => 0
         ]
     ] );
 }
@@ -164,6 +166,7 @@ function sgf_get_all_meta( $postID, $raw = false ) {
 							break;
 						case 'lh':
 						case 'ls':
+						case 'ws':
 							$raw_meta[ $meta_key ] = floatval( $meta_value[ 0 ] );
 							break;
 						case 'is':
@@ -200,6 +203,7 @@ function sgf_get_all_meta( $postID, $raw = false ) {
 
 				case 'lh':
 				case 'ls':
+				case 'ws':
 					$meta[ $panel ][ $prop ] = floatval( $meta_value[ 0 ] );
 					break;
 

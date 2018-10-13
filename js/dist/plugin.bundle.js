@@ -218,7 +218,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FONT_WEIGHT", function() { return FONT_WEIGHT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TEXT_TRANSFORM", function() { return TEXT_TRANSFORM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HEADINGS_TABS", function() { return HEADINGS_TABS; });
-var __ = wp.i18n.__;
 var PLUGIN_INFO = {
   sidebarId: 'sgf-sidebar',
   sidebarIcon: 'editor-textcolor',
@@ -355,7 +354,8 @@ function (_Component) {
     _this.changeFontsWeights = _this.changeFontsWeights.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.changeTransform = _this.changeTransform.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.changeLineHeight = _this.changeLineHeight.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-    _this.changeLetterSpace = _this.changeLetterSpace.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.changeLetterSpacing = _this.changeLetterSpacing.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    _this.changeWordSpacing = _this.changeWordSpacing.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.changeStyles = _this.changeStyles.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     _this.updateElement = _this.updateElement.bind(_assertThisInitialized(_assertThisInitialized(_this)));
     return _this;
@@ -695,8 +695,20 @@ function (_Component) {
      */
 
   }, {
-    key: "changeLetterSpace",
-    value: function changeLetterSpace() {
+    key: "changeLetterSpacing",
+    value: function changeLetterSpacing() {
+      this.changeStyles();
+    }
+    /**
+     * Wrapper for changeStyles(), in case we need to add something later
+     *
+     * @since  1.0.2
+     * @return {Void}
+     */
+
+  }, {
+    key: "changeWordSpacing",
+    value: function changeWordSpacing() {
       this.changeStyles();
     }
     /**
@@ -763,11 +775,15 @@ function (_Component) {
           break;
 
         case 'ls':
-          this.changeLetterSpace();
+          this.changeLetterSpacing();
           break;
 
         case 'tt':
           this.changeTransform();
+          break;
+
+        case 'ws':
+          this.changeWordSpacing();
           break;
 
         default:
@@ -789,9 +805,7 @@ function (_Component) {
       var sidebarId = _constants__WEBPACK_IMPORTED_MODULE_1__["PLUGIN_INFO"].sidebarId,
           pluginName = _constants__WEBPACK_IMPORTED_MODULE_1__["PLUGIN_INFO"].pluginName,
           sidebarIcon = _constants__WEBPACK_IMPORTED_MODULE_1__["PLUGIN_INFO"].sidebarIcon;
-      var _this$props2 = this.props,
-          meta = _this$props2.meta,
-          info = _this$props2.info;
+      var meta = this.props.meta;
       var updateEl = this.updateElement;
       return React.createElement(Fragment, null, React.createElement(PluginSidebar, {
         name: sidebarId,
@@ -846,6 +860,15 @@ function (_Component) {
           onChange: function onChange(value) {
             return updateEl(tabName, 'ls', value, true);
           }
+        }), React.createElement(RangeControl, {
+          label: __('Word spacing:'),
+          value: Object(_utils__WEBPACK_IMPORTED_MODULE_2__["getHeadingValue"])(tabName, 'ws', meta),
+          min: 0,
+          max: 3,
+          step: 0.01,
+          onChange: function onChange(value) {
+            return updateEl(tabName, 'ws', value, true);
+          }
         }));
       })), React.createElement(PanelBody, {
         title: __('Body'),
@@ -881,6 +904,15 @@ function (_Component) {
         step: 0.01,
         onChange: function onChange(value) {
           return updateEl('body', 'ls', value);
+        }
+      }), React.createElement(RangeControl, {
+        label: __('Word spacing:'),
+        value: meta.sgf_ws_body,
+        min: 0,
+        max: 3,
+        step: 0.01,
+        onChange: function onChange(value) {
+          return updateEl('body', 'ws', value);
         }
       })), React.createElement(PanelBody, {
         title: __('Global Options'),
@@ -1147,8 +1179,20 @@ function theStyles(meta, fontsObj) {
         styleTag.textContent += "\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] ".concat(heading, " {\n                    letter-spacing: ").concat(hParsed.ls, "em !important;\n                }\n            ");
       }
 
+      if (hParsed && hParsed.ws !== 0) {
+        if (heading === 'h1') {
+          styleTag.textContent += "\n                    body.gutenberg-editor-page .editor-post-title__block .editor-post-title__input {\n                        word-spacing: ".concat(hParsed.ws, "em !important;\n                    }\n                ");
+        }
+
+        styleTag.textContent += "\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] ".concat(heading, " {\n                    word-spacing: ").concat(hParsed.ws, "em !important;\n                }\n            ");
+      }
+
       if (meta.sgf_ls_body !== 0) {
         styleTag.textContent += "\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"],\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"],\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] p,\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"] p {\n                    letter-spacing: ".concat(meta.sgf_ls_body, "em !important;\n                }\n            ");
+      }
+
+      if (meta.sgf_ws_body !== 0) {
+        styleTag.textContent += "\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"],\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"],\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"wp-block-\"] p,\n                body.gutenberg-editor-page .editor-block-list__block div[class*=\"block-list__block\"] p {\n                    word-spacing: ".concat(meta.sgf_ws_body, "em !important;\n                }\n            ");
       }
     };
 
@@ -1295,6 +1339,7 @@ var parseHeadingValues = function parseHeadingValues(heading) {
       switch (el) {
         case 'lh':
         case 'ls':
+        case 'ws':
           value = Number(value);
           break;
 
@@ -1354,9 +1399,7 @@ var stringifyHeadingValues = function stringifyHeadingValues(parsed, prop, value
 var getHeadingValue = function getHeadingValue(el, prop, meta) {
   var _simpleGFonts = simpleGFonts,
       hdef = _simpleGFonts.headings;
-  var defaults = hdef[el]; //TODO check if weight is supported by the current FF
-  //const defaults = parseHeadingValues( `el:${el}|wt:400|tt:none|lh:1.4|ls:0` ); //TODO
-
+  var defaults = hdef[el];
   var headings = meta.sgf_els_headings;
 
   if (headings.length) {
@@ -1426,7 +1469,7 @@ var createStyleNodes = function createStyleNodes() {
 
 var addGlobalHeadings = function addGlobalHeadings(meta) {
   var _simpleGFonts2 = simpleGFonts,
-      gvals = _simpleGFonts2.global_vals; //if( ! meta.sgf_els_headings.length && gvals ) {
+      gvals = _simpleGFonts2.global_vals;
 
   if (gvals) {
     var gheadings = gvals.sgf_els_headings;

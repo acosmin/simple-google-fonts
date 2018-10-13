@@ -27,13 +27,20 @@ function sgf_is_editor_page() {
  * @return array
  */
 function sgf_headings_defaults() {
-    return (object) apply_filters( 'sgf_headings_defaults', [
-        'el' => 'h1',
-        'wt' => '400',
-        'tt' => 'none',
-        'lh' => 1.8,
-        'ls' => 0
-    ] );
+	$headings = sgf_allowed_values()[ 'headings' ];
+	$defaults = [];
+
+	foreach( $headings as $heading ) {
+		$defaults[ $heading ] = [ 
+			'el' => $heading,
+			'wt' => '400',
+			'tt' => 'none',
+			'lh' => 1.8,
+			'ls' => 0 
+		];
+	}
+
+	return apply_filters( 'sgf_headings_defaults', $defaults, $headings );
 }
 
 /**
@@ -232,6 +239,25 @@ function sgf_parse_heading_values( $heading ) {
 }
 
 /**
+ * Stringify headin values from an array.
+ *
+ * @since  1.0.2
+ * @param  array  $heading Proprieties and values in an array.
+ * @return string          Empty string if no $heading, values in a string otherwise.
+ */
+function sgf_stringify_heading_values( $heading = [] ) {
+	if( empty( $heading ) ) return '';
+
+	$proprieties = [];
+	
+	foreach( $heading as $propriety => $value ) {
+		$proprieties[] = $propriety . ':' . $value;
+	}
+
+	return implode( '|', $proprieties );
+}
+
+/**
  * Converts font weights into a string to be used in a Google Fonts URL
  *
  * @since  1.0.0
@@ -350,4 +376,44 @@ function sgf_minify_css( $css ) {
  */
 function sgf_allowed_post_types() {
 	return apply_filters( 'sgf_allowed_post_types', [ 'post', 'page' ] );
+}
+
+/**
+ * Checks if a filter is applied on our defaults.
+ *
+ * @since  1.0.2
+ * @return boolean True if filters are applied, false if not.
+ */
+function sgf_filtered_defaults() {
+	global $wp_filter;
+	
+    if( isset( $wp_filter[ 'sgf_defaults' ] ) || isset( $wp_filter[ 'sgf_headings_defaults' ] ) ) {
+		return true;
+	}
+
+    return false;
+}
+
+/**
+ * If filters are applied, use them as defaults and as initial globals.
+ *
+ * @since  1.0.2
+ * @return array All the defaults with compiled Headings defautlts.
+ */
+function sgf_use_filtered_defaults() {
+	$check    = sgf_filtered_defaults();
+	$defaults = false;
+
+	if( $check ) {
+		$defaults = sgf_defaults();
+		$headings = sgf_headings_defaults();
+		$count    = 0;
+
+		foreach( $headings as $heading => $options ) {
+			$defaults[ 'headings' ][ 'els' ][ $count ] = sgf_stringify_heading_values( $options );
+			$count++;
+		}
+	}
+
+	return apply_filters( 'sgf_use_filtered_defaults', $defaults, $check );
 }

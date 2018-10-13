@@ -1,3 +1,9 @@
+import { 
+    HEADINGS
+} from './constants';
+
+const { isEmpty } = lodash;
+
 /**
  * Capitalizes the words in a string.
  *
@@ -106,7 +112,11 @@ export const stringifyHeadingValues = ( parsed, prop, value ) => {
  * @returns {Mixed}       Meta value for the selected heading propriety or returns the default value for it
  */
 export const getHeadingValue = ( el, prop, meta ) => {
-    const defaults = parseHeadingValues( `el:${el}|wt:400|tt:none|lh:1.4|ls:0` );
+    const { headings:hdef } = simpleGFonts;
+    
+    const defaults = hdef[ el ]; //TODO check if weight is supported by the current FF
+    //const defaults = parseHeadingValues( `el:${el}|wt:400|tt:none|lh:1.4|ls:0` ); //TODO
+    
     const headings = meta.sgf_els_headings;
 
     if( headings.length ) {
@@ -182,13 +192,84 @@ export const createStyleNodes = () => {
 export const addGlobalHeadings = meta => {
     const { global_vals:gvals } = simpleGFonts;
 
-    if( ! meta.sgf_els_headings.length && gvals ) {
+    //if( ! meta.sgf_els_headings.length && gvals ) {
+    if( gvals ) {
         const { sgf_els_headings:gheadings } = gvals;
 
         if( gheadings && gheadings.length ) {
             meta.sgf_els_headings = [
                 ...gheadings
             ];
+        }
+    }
+
+    return meta;
+}
+
+/**
+ * Adds defaults to meta if values don't exist.
+ *
+ * @todo    Clean-up, make it more readable
+ * @since   1.0.2
+ * @param   {Object} meta Meta without defaults
+ * @returns {Object}      Meta with defaults
+ */
+export const addDefaultsToMeta = meta => {
+    const { defaults, headings } = simpleGFonts;
+
+    const parsed      = parseHeadingValues;
+    const stringified = stringifyHeadingValues;
+        
+    let newDefaults     = {}; 
+    let newHeadingsDefs = [];
+
+    for( const headingType of Object.keys( headings ) ) {
+        newHeadingsDefs.push( stringified( headings[ headingType ] ) );
+    }
+    
+    for( const panelType of Object.keys( defaults ) ) {
+        for( const option of Object.keys( defaults[ panelType ] ) ) {
+            newDefaults[ `sgf_${option}_${panelType}` ] = defaults[ panelType ][ option ];
+        }
+    }
+    
+    meta = {
+        ...newDefaults,
+        ...meta
+    }
+
+    for( const heading of HEADINGS ) {
+        const hObj = meta.sgf_els_headings.find( hEl => {
+            const hElparse = parsed( hEl );
+
+            if( isEmpty( hElparse ) ) return false;
+
+            return hElparse.el === heading;
+        } );
+        
+        if( hObj ) {
+            const hObjIndex = meta.sgf_els_headings.findIndex( hOel => 
+                parsed( hOel ).el === heading   
+            );
+
+            meta.sgf_els_headings[ hObjIndex ] = stringified( {
+                ...parsed( newHeadingsDefs.find( nHdef => 
+                    parsed( nHdef ).el === heading 
+                ) ),
+                ...parsed( hObj )
+            } );
+        } else {
+            const defHeading = newHeadingsDefs.find( nHdef => {
+                return parsed( nHdef ).el === heading;
+            } );
+
+            const exists = meta.sgf_els_headings.findIndex( hOel => 
+                parsed( hOel ).el ===  parsed( defHeading ).el
+            );
+
+            if( defHeading && exists === -1 ) {
+                meta.sgf_els_headings.push( defHeading );
+            }
         }
     }
 

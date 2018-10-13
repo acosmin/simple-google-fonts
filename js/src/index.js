@@ -14,7 +14,8 @@ import {
     stringifyHeadingValues,
     getHeadingValue,
     createStyleNodes,
-    addGlobalHeadings
+    addGlobalHeadings,
+    addDefaultsToMeta
 } from './utils';
 
 import { SGFGlobalOption } from './components/global';
@@ -154,18 +155,19 @@ class SimpleGoogleFonts extends Component {
      * @returns {Object}       Selected meta
      */
     getMeta( item, panel ) {
-        const newmeta = select('core/editor').getEditedPostAttribute( 'meta' );
-
+        const newMeta = select('core/editor').getEditedPostAttribute( 'meta' );
+        
         let meta = {
-            ...newmeta
+            ...newMeta
         }
-
+        
+        meta = addDefaultsToMeta( meta );
         meta = addGlobalHeadings( meta );
 
         if( item && panel ) {
             return meta[ `sgf_${item}_${panel}` ];
         }
-
+        
         return meta;
     }
 
@@ -351,9 +353,11 @@ class SimpleGoogleFonts extends Component {
      * @return {Void}
      */
     updateElement( panel, type, value, heading = false ) {
-        const { meta, oldmeta, updateSingleMeta, updateHeadingsMeta } = this.props;
+        const { oldmeta, updateSingleMeta, updateHeadingsMeta } = this.props;
+
+        const meta     = this.getMeta();
         const changeFW = this.changeFontsWeights;
-        const args = { panel, type, value };
+        const args     = { panel, type, value };
 
         if( ! heading ) {
             updateSingleMeta( args, meta, oldmeta );
@@ -418,7 +422,7 @@ class SimpleGoogleFonts extends Component {
                     <PanelBody title={ __( 'Headings' ) } initialOpen={ false }>
                         <SelectControl 
                             label={ __( 'Headings font family' ) }
-                            value={ meta.sgf_ff_headings || 0 }
+                            value={ meta.sgf_ff_headings }
                             options={ this.fontsOptions() }
                             onChange={ value => updateEl( 'headings', 'ff', value ) }
                         />
@@ -428,7 +432,10 @@ class SimpleGoogleFonts extends Component {
                             activeClass="active-tab"
                             tabs={ HEADINGS_TABS }>
                             {
-                                ( tabName ) => (
+                                ( tab ) => { 
+                                    const tabName = tab.hasOwnProperty( 'name' ) ? tab.name : tab;
+
+                                    return (
                                     <Fragment>
                                         { /* /// Headings: Font weight /// */ }
                                         <SelectControl 
@@ -466,7 +473,7 @@ class SimpleGoogleFonts extends Component {
                                             onChange={ value => updateEl( tabName, 'ls', value, true ) }
                                         />
                                     </Fragment>
-                                )
+                                ) }
                             }
                         </TabPanel>
 
@@ -478,7 +485,7 @@ class SimpleGoogleFonts extends Component {
                         { /* /// Body: Font family /// */ }
                         <SelectControl 
                             label={ __( 'Body font family' ) }
-                            value={ meta.sgf_ff_body || 0 }
+                            value={ meta.sgf_ff_body }
                             options={ this.fontsOptions() }
                             onChange={ value => updateEl( 'body', 'ff', value ) }
                         />
@@ -486,7 +493,7 @@ class SimpleGoogleFonts extends Component {
                         { /* /// Body: Font weight /// */ }
                         <SelectControl 
                             label={ __( 'Font weight:' ) }
-                            value={ meta.sgf_wt_body || 0 }
+                            value={ meta.sgf_wt_body }
                             options={ this.weightsOptions( meta.sgf_ff_body ) }
                             onChange={ value => updateEl( 'body', 'wt', value ) }
                         />
@@ -494,7 +501,7 @@ class SimpleGoogleFonts extends Component {
                         { /* /// Body: Line height /// */ }
                         <RangeControl 
                             label={ __( 'Line height:' ) }
-                            value={ meta.sgf_lh_body || 1.8 }
+                            value={ meta.sgf_lh_body }
                             min={ 1 }
                             max={ 3 }
                             step={ 0.05 }
@@ -504,7 +511,7 @@ class SimpleGoogleFonts extends Component {
                         { /* /// Body: Letter spacing /// */ }
                         <RangeControl 
                             label={ __( 'Letter spacing:' ) }
-                            value={ meta.sgf_ls_body || 0 }
+                            value={ meta.sgf_ls_body }
                             min={ 0 }
                             max={ 3 }
                             step={ 0.01 }
@@ -545,11 +552,11 @@ export default compose( [
 
     withSelect( select => {
         const editor      = select( 'core/editor' );
-        const postMeta    = editor.getEditedPostAttribute( 'meta' );
+        const postMeta    = addDefaultsToMeta( editor.getEditedPostAttribute( 'meta' ) );
         const oldPostMeta = editor.getCurrentPostAttribute( 'meta' );
         const isPublished = editor.isCurrentPostPublished();
         const pageID      = editor.getCurrentPostId();
-
+        
         let info = {
             meta    : { ...oldPostMeta, ...postMeta },
             oldmeta : oldPostMeta,
@@ -580,7 +587,7 @@ export default compose( [
             const stringified = stringifyHeadingValues;
             const parsed      = parseHeadingValues;
 
-            const defaults = parsed( `el:${el}|wt:400|tt:none|lh:1.4|ls:0` );
+            const defaults = simpleGFonts.headings[ el ];
             const hdskey   = 'sgf_els_headings';
             const headings = newmeta[ hdskey ];
 

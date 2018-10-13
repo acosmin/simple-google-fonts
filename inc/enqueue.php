@@ -139,7 +139,11 @@ function sgf_enqueue_fonts_setup( $postID ) {
     
     $families = [];
 
-    if( ! $meta ) return false;
+    if( ! $meta ) {
+        $meta = sgf_use_filtered_defaults();
+    };
+
+    if( ! $meta ) return false; 
     
     if( isset( $meta[ 'headings' ][ 'ff' ] ) && $meta[ 'headings' ][ 'ff' ] !== 0 ) {
         $ff       = $fonts[ $meta[ 'headings' ][ 'ff' ] ];
@@ -203,6 +207,10 @@ function sgf_styles_frontend( $postID ) {
     $headings = sgf_allowed_values()[ 'headings' ];
 
     $text_logo = apply_filters( 'sgf_styles_frontend_txt_logo', '.site-title' );
+
+    if( ! $meta ) {
+        $meta = sgf_use_filtered_defaults();
+    };
 
     if( ! $meta ) return;
 
